@@ -29,10 +29,16 @@ async function run() {
     await client.connect();
 
     const allClass = client.db("languageDB").collection("allclass");
+    const allInstructor = client.db("languageDB").collection("allinstructor");
     const cartCollection = client.db("languageDB").collection("carts");
 
     app.get('/allclass', async (req, res) => {
       const result = await allClass.find().toArray()
+      res.send(result)
+    })
+
+    app.get('/allinstructor', async (req, res) => {
+      const result = await allInstructor.find().toArray()
       res.send(result)
     })
 
