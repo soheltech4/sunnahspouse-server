@@ -29,18 +29,28 @@ async function run() {
     await client.connect();
 
     const allClass = client.db("languageDB").collection("allclass");
-    const userCart = client.db("languageDB").collection("carts");
+    const cartCollection = client.db("languageDB").collection("carts");
 
-    app.get('/allclass', async(req, res)=>{
-        const result = await allClass.find().toArray()
-        res.send(result)
+    app.get('/allclass', async (req, res) => {
+      const result = await allClass.find().toArray()
+      res.send(result)
     })
 
-    app.post('/carts', async(req, res)=>{
-        const item = req.body
-        const result = await userCart.insertOne(item)
-        res.send(result)
-      })
+    app.post('/carts', async (req, res) => {
+      const item = req.body
+      const result = await cartCollection.insertOne(item)
+      res.send(result)
+    })
+
+    app.get('/carts', async(req, res)=>{
+      const email = req.query.email 
+      if(!email){
+        res.send([])
+      }
+      const query = {email : email}
+      const result = await cartCollection.find(query).toArray()
+      res.send(result)
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
@@ -55,11 +65,11 @@ run().catch(console.dir);
 
 
 
-app.get('/', (req, res)=>{
-    res.send("Language Masters is Running")
+app.get('/', (req, res) => {
+  res.send("Language Masters is Running")
 })
 
 
-app.listen(port, ()=>{
-    console.log(`Language Masters is Running on Port ${port}`)
+app.listen(port, () => {
+  console.log(`Language Masters is Running on Port ${port}`)
 })
