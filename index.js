@@ -37,8 +37,22 @@ async function run() {
       res.send(result)
     })
 
+    app.get('/allclass/:id', async (req, res) => {
+      const id = req.params.id
+      const query = {_id : new ObjectId(id)};
+      const result = await allClass.find(query).toArray()
+      res.send(result)
+    })
+
     app.get('/allinstructor', async (req, res) => {
       const result = await allInstructor.find().toArray()
+      res.send(result)
+    })
+
+    app.get('/allinstructor/:id', async (req, res) => {
+      const id = req.params.id
+      const query = {_id : new ObjectId(id)};
+      const result = await allInstructor.find(query).toArray()
       res.send(result)
     })
 
