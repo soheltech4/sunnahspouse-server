@@ -32,6 +32,20 @@ async function run() {
     const allInstructor = client.db("languageDB").collection("allinstructor");
     const cartCollection = client.db("languageDB").collection("carts");
 
+    const users = client.db("languageDB").collection("users");
+
+    app.post('/users', async(req, res)=> {
+      const user = req.body
+      const query = {email: user.email}
+      const existingUser = await users.findOne(query)
+      if(existingUser){
+        return res.send({message: "user Already exist"})
+      }
+      const result = await users.insertOne(user)
+      res.send(result)
+    })
+
+
     app.get('/allclass', async (req, res) => {
       const result = await allClass.find().toArray()
       res.send(result)
