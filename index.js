@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+require('dotenv').config()
 const cors = require('cors')
 require('dotenv').config()
 
@@ -26,7 +27,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    // await client.connect();
+    await client.connect();
 
     const allClass = client.db("languageDB").collection("allclass");
     const allInstructor = client.db("languageDB").collection("allinstructor");
@@ -144,8 +145,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-
 
 
 app.get('/', (req, res) => {
