@@ -31,7 +31,6 @@ async function run() {
     const allClass = client.db("languageDB").collection("allclass");
     const allInstructor = client.db("languageDB").collection("allinstructor");
     const cartCollection = client.db("languageDB").collection("carts");
-
     const users = client.db("languageDB").collection("users");
 
     app.post('/users', async(req, res)=> {
@@ -42,6 +41,30 @@ async function run() {
         return res.send({message: "user Already exist"})
       }
       const result = await users.insertOne(user)
+      res.send(result)
+    })
+
+    app.patch('/users/admin/:id', async(req, res)=>{
+      const id = req.params.id
+      const filter = {_id: new ObjectId(id)}
+      const updateDoc = {
+        $set : {
+          role : 'admin'
+        }
+      }
+      const result = await users.updateOne(filter, updateDoc)
+      res.send(result)
+    })
+
+    app.patch('/users/instructor/:id', async(req, res)=>{
+      const id = req.params.id
+      const filter = {_id: new ObjectId(id)}
+      const updateDoc = {
+        $set : {
+          role : 'instructor'
+        }
+      }
+      const result = await users.updateOne(filter, updateDoc)
       res.send(result)
     })
 
