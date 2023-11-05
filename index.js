@@ -36,7 +36,7 @@ async function run() {
     app.get('/users/:id', async (req, res) => {
       const id = req.params.id
       const query = {_id : new ObjectId(id)};
-      const result = await allClass.find(query).toArray()
+      const result = await Allusers.find(query).toArray()
       res.send(result)
     })
 
